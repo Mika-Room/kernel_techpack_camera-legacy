@@ -15,7 +15,7 @@
 
 static struct msm_buf_mngr_device *msm_buf_mngr_dev;
 
-struct v4l2_subdev *legacy_msm_buf_mngr_get_subdev(void)
+struct v4l2_subdev *legacy_n_msm_buf_mngr_get_subdev(void)
 {
 	return &msm_buf_mngr_dev->subdev.sd;
 }
@@ -459,7 +459,7 @@ static int msm_generic_buf_mngr_close(struct v4l2_subdev *sd,
 	return rc;
 }
 
-int legacy_msm_cam_buf_mgr_ops(unsigned int cmd, void *argp)
+int legacy_n_msm_cam_buf_mgr_ops(unsigned int cmd, void *argp)
 {
 	int rc = 0;
 
@@ -509,14 +509,14 @@ int legacy_msm_cam_buf_mgr_ops(unsigned int cmd, void *argp)
 	return rc;
 }
 
-int legacy_msm_cam_buf_mgr_register_ops(struct msm_cam_buf_mgr_req_ops *cb_struct)
+int legacy_n_msm_cam_buf_mgr_register_ops(struct msm_cam_buf_mgr_req_ops *cb_struct)
 {
 	if (!msm_buf_mngr_dev)
 		return -ENODEV;
 	if (!cb_struct)
 		return -EINVAL;
 
-	cb_struct->legacy_msm_cam_buf_mgr_ops = legacy_msm_cam_buf_mgr_ops;
+	cb_struct->legacy_n_msm_cam_buf_mgr_ops = legacy_n_msm_cam_buf_mgr_ops;
 	return 0;
 }
 
@@ -560,7 +560,7 @@ static long msm_buf_mngr_subdev_ioctl(struct v4l2_subdev *sd,
 			}
 
 			argp = &k_ioctl;
-			rc = legacy_msm_cam_buf_mgr_ops(cmd, argp);
+			rc = legacy_n_msm_cam_buf_mgr_ops(cmd, argp);
 			}
 			break;
 		default:
@@ -572,7 +572,7 @@ static long msm_buf_mngr_subdev_ioctl(struct v4l2_subdev *sd,
 	case VIDIOC_MSM_BUF_MNGR_GET_BUF:
 	case VIDIOC_MSM_BUF_MNGR_BUF_DONE:
 	case VIDIOC_MSM_BUF_MNGR_PUT_BUF:
-		rc = legacy_msm_cam_buf_mgr_ops(cmd, argp);
+		rc = legacy_n_msm_cam_buf_mgr_ops(cmd, argp);
 		break;
 	case VIDIOC_MSM_BUF_MNGR_INIT:
 		rc = msm_generic_buf_mngr_open(sd, NULL);
@@ -657,7 +657,7 @@ static long msm_camera_buf_mgr_internal_compat_ioctl(struct file *file,
 	struct msm_camera_private_ioctl_arg k_ioctl;
 	void __user *tmp_compat_ioctl_ptr = NULL;
 
-	rc = legacy_msm_copy_camera_private_ioctl_args(arg,
+	rc = legacy_n_msm_copy_camera_private_ioctl_args(arg,
 		&k_ioctl, &tmp_compat_ioctl_ptr);
 	if (rc < 0) {
 		pr_err("Subdev cmd %d failed\n", cmd);
@@ -828,12 +828,12 @@ static long msm_buf_subdev_fops_ioctl(struct file *file, unsigned int cmd,
 	return video_usercopy(file, cmd, arg, msm_bmgr_subdev_do_ioctl);
 }
 
-extern bool camera_legacy_enable;
+extern bool camera_legacy_n_enable;
 
 static int32_t __init msm_buf_mngr_init(void)
 {
 	int32_t rc = 0;
-	if (!camera_legacy_enable)
+	if (!camera_legacy_n_enable)
 		return -ENODEV;
 	msm_buf_mngr_dev = kzalloc(sizeof(*msm_buf_mngr_dev),
 		GFP_KERNEL);
@@ -844,7 +844,7 @@ static int32_t __init msm_buf_mngr_init(void)
 	/* Sub-dev */
 	v4l2_subdev_init(&msm_buf_mngr_dev->subdev.sd,
 		&msm_buf_mngr_subdev_ops);
-	legacy_msm_cam_copy_v4l2_subdev_fops(&msm_buf_v4l2_subdev_fops);
+	legacy_n_msm_cam_copy_v4l2_subdev_fops(&msm_buf_v4l2_subdev_fops);
 	msm_buf_v4l2_subdev_fops.unlocked_ioctl = msm_buf_subdev_fops_ioctl;
 #ifdef CONFIG_COMPAT
 	msm_buf_v4l2_subdev_fops.compat_ioctl32 =
@@ -863,9 +863,9 @@ static int32_t __init msm_buf_mngr_init(void)
 	msm_buf_mngr_dev->subdev.sd.internal_ops =
 		&msm_generic_buf_mngr_subdev_internal_ops;
 	msm_buf_mngr_dev->subdev.close_seq = MSM_SD_CLOSE_4TH_CATEGORY;
-	rc = legacy_msm_sd_register(&msm_buf_mngr_dev->subdev);
+	rc = legacy_n_msm_sd_register(&msm_buf_mngr_dev->subdev);
 	if (rc != 0) {
-		pr_err("%s: legacy_msm_sd_register error = %d\n", __func__, rc);
+		pr_err("%s: legacy_n_msm_sd_register error = %d\n", __func__, rc);
 		goto end;
 	}
 
@@ -892,7 +892,7 @@ end:
 
 static void __exit msm_buf_mngr_exit(void)
 {
-	legacy_msm_sd_unregister(&msm_buf_mngr_dev->subdev);
+	legacy_n_msm_sd_unregister(&msm_buf_mngr_dev->subdev);
 	mutex_destroy(&msm_buf_mngr_dev->cont_mutex);
 	kfree(msm_buf_mngr_dev);
 }

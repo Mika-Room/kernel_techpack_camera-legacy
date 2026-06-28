@@ -291,9 +291,9 @@ static int32_t msm_led_trigger_probe(struct platform_device *pdev)
 		}
 	}
 
-	rc = legacy_msm_led_flash_create_v4lsubdev(pdev, &fctrl);
+	rc = legacy_n_msm_led_flash_create_v4lsubdev(pdev, &fctrl);
 	if (!rc)
-		legacy_msm_led_torch_create_classdev(pdev, &fctrl);
+		legacy_n_msm_led_torch_create_classdev(pdev, &fctrl);
 
 	return rc;
 }
@@ -309,11 +309,11 @@ static struct platform_driver msm_led_trigger_driver = {
 	},
 };
 
-extern bool camera_legacy_enable;
+extern bool camera_legacy_n_enable;
 
 static int __init msm_led_trigger_add_driver(void)
 {
-	if (!camera_legacy_enable)
+	if (!camera_legacy_n_enable)
 		return -ENODEV;
 	CDBG("called\n");
 	return platform_driver_register(&msm_led_trigger_driver);

@@ -74,7 +74,7 @@ static int32_t msm_sensor_driver_cmd(struct msm_sensor_init_t *s_init,
 	case CFG_SINIT_PROBE:
 		mutex_lock(&s_init->imutex);
 		s_init->module_init_status = 0;
-		rc = legacy_msm_sensor_driver_probe(cfg->cfg.setting,
+		rc = legacy_n_msm_sensor_driver_probe(cfg->cfg.setting,
 			&cfg->probed_info,
 			cfg->entity_name);
 		mutex_unlock(&s_init->imutex);
@@ -164,12 +164,12 @@ static long msm_sensor_init_subdev_fops_ioctl(
 }
 #endif
 
-extern bool camera_legacy_enable;
+extern bool camera_legacy_n_enable;
 
 static int __init msm_sensor_init_module(void)
 {
 	int ret = 0;
-	if (!camera_legacy_enable)
+	if (!camera_legacy_n_enable)
 		return -ENODEV;
 	/* Allocate memory for msm_sensor_init control structure */
 	s_init = kzalloc(sizeof(struct msm_sensor_init_t), GFP_KERNEL);
@@ -192,12 +192,12 @@ static int __init msm_sensor_init_module(void)
 	s_init->msm_sd.sd.entity.group_id = MSM_CAMERA_SUBDEV_SENSOR_INIT;
 	s_init->msm_sd.sd.entity.name = s_init->msm_sd.sd.name;
 	s_init->msm_sd.close_seq = MSM_SD_CLOSE_2ND_CATEGORY | 0x6;
-	ret = legacy_msm_sd_register(&s_init->msm_sd);
+	ret = legacy_n_msm_sd_register(&s_init->msm_sd);
 	if (ret) {
-		CDBG("%s: legacy_msm_sd_register error = %d\n", __func__, ret);
+		CDBG("%s: legacy_n_msm_sd_register error = %d\n", __func__, ret);
 		goto error;
 	}
-	legacy_msm_cam_copy_v4l2_subdev_fops(&msm_sensor_init_v4l2_subdev_fops);
+	legacy_n_msm_cam_copy_v4l2_subdev_fops(&msm_sensor_init_v4l2_subdev_fops);
 #ifdef CONFIG_COMPAT
 	msm_sensor_init_v4l2_subdev_fops.compat_ioctl32 =
 		msm_sensor_init_subdev_fops_ioctl;
@@ -216,7 +216,7 @@ error:
 
 static void __exit msm_sensor_exit_module(void)
 {
-	legacy_msm_sd_unregister(&s_init->msm_sd);
+	legacy_n_msm_sd_unregister(&s_init->msm_sd);
 	mutex_destroy(&s_init->imutex);
 	kfree(s_init);
 	return;
