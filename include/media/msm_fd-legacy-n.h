@@ -12,7 +12,7 @@
 #ifndef __MSM_FD__
 #define __MSM_FD__
 
-#include <uapi/media/msm_fd-legacy.h>
+#include <uapi/media/msm_fd-legacy-n.h>
 #include <linux/compat.h>
 
 #ifdef CONFIG_COMPAT

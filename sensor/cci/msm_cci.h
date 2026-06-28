@@ -18,8 +18,8 @@
 #include <linux/platform_device.h>
 #include <media/v4l2-subdev.h>
 #include <linux/workqueue.h>
-#include <media/msm_cam_sensor-legacy.h>
-#include <soc/qcom/camera2-legacy.h>
+#include <media/msm_cam_sensor-legacy-n.h>
+#include <soc/qcom/camera2-legacy-n.h>
 #include "msm_sd.h"
 #include "cam_soc_api.h"
 

@@ -1,8 +1,8 @@
 #ifndef __LINUX_MSM_CAM_SENSOR_H
 #define __LINUX_MSM_CAM_SENSOR_H
 
-#include <uapi/media/msm_cam_sensor-legacy.h>
-#include <uapi/media/msm_camsensor_sdk-legacy.h>
+#include <uapi/media/msm_cam_sensor-legacy-n.h>
+#include <uapi/media/msm_camsensor_sdk-legacy-n.h>
 
 #include <linux/compat.h>
 

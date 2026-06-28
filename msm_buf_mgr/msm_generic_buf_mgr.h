@@ -18,8 +18,8 @@
 #include <linux/module.h>
 #include <linux/platform_device.h>
 #include <media/v4l2-subdev.h>
-#include <media/msmb_camera-legacy.h>
-#include <media/msmb_generic_buf_mgr-legacy.h>
+#include <media/msmb_camera-legacy-n.h>
+#include <media/msmb_generic_buf_mgr-legacy-n.h>
 
 #include "msm.h"
 #include "msm_sd.h"
