@@ -1,4 +1,4 @@
-ifeq ($(CONFIG_MSMB_CAMERA_LEGACY),y)
+ifeq ($(CONFIG_MSMB_CAMERA_LEGACY_N),y)
 ccflags-y += -Itechpack/camera-legacy
 ccflags-y += -Itechpack/camera-legacy/sensor
 ccflags-y += -Itechpack/camera-legacy/codecs
@@ -21,7 +21,7 @@ LINUXINCLUDE    += \
                 -I$(srctree)/techpack/camera-legacy/include \
                 -I$(srctree)/techpack/camera-legacy/include/uapi
 
-obj-$(CONFIG_MSMB_CAMERA_LEGACY) += init.o
+obj-$(CONFIG_MSMB_CAMERA_LEGACY_N) += init.o
 
 obj-$(CONFIG_MSMB_CAMERA) += common/
 obj-$(CONFIG_MSMB_CAMERA) += msm.o

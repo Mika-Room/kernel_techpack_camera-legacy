@@ -1,6 +1,6 @@
 menu "Camera (Legacy)"
 
-config MSMB_CAMERA_LEGACY
+config MSMB_CAMERA_LEGACY_N
 	bool "Qualcomm MSM camera and video capture 2.0 support (Legacy)"
 	select MSMB_CAMERA
 	help
